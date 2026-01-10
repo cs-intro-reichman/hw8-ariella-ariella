@@ -53,6 +53,7 @@ public class Network {
      *  If any of the two names is not a user in this network,
      *  or if the "follows" addition failed for some reason, returns false. */
     public boolean addFollowee(String name1, String name2) {
+        if (name1.equals(name2)) return false;
         User user1 = getUser(name1);
         if (user1 == null || getUser(name2) == null) {
             return false;
@@ -81,8 +82,9 @@ public class Network {
     /** Computes and returns the name of the most popular user in this network: 
      *  The user who appears the most in the follow lists of all the users. */
     public String mostPopularUser() {
+        if (userCount == 0) return null;
         String name = "";
-        int mostFollowers = 0;
+        int mostFollowers = -1;
         for (int i = 0; i < userCount; i++) {
             String nameAtIndex = users[i].getName();
             int followeeCount = followeeCount(nameAtIndex);
@@ -107,10 +109,10 @@ public class Network {
     // Returns a textual description of all the users in this network, and who they follow.
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Network:\n");
+        sb.append("Network:");
         for (int i = 0; i < userCount; i++) {
-            sb.append(users[i]);
             sb.append("\n");
+            sb.append(users[i]);
         }
        return sb.toString();
     }
